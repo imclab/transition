@@ -10,6 +10,9 @@ Transition::Application.routes.draw do
 
     get 'mappings/find', as: 'mapping_find'
     resources :mappings, except: [:destroy] do
+      collection do
+        get 'editmultiple'
+      end
       resources :versions, only: [:index]
     end
 

@@ -1,3 +1,8 @@
-<%= link_to new_site_mapping_path(@site), class: 'btn btn-success' do %>
-  <i class="icon-plus icon-white"></i> Add mapping
-<% end %>
+<div class="btn-group">
+  <%= link_to new_site_mapping_path(@site), class: 'btn' do %>
+    <i class="icon-plus"></i> Add mappings
+  <% end %>
+  <%= link_to editmultiple_site_mappings_path(@site), class: 'btn' do %>
+    <i class="icon-edit"></i> Edit these mappings
+  <% end %>
+</div>

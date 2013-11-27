@@ -1,0 +1,86 @@
+<% content_for(:page_title, "#{@site.default_host.hostname} Mappings") %>
+
+<%= breadcrumb(@site) %>
+
+<div class="page-title-with-border">
+  <h1>
+    <span class="small"><%= @site.default_host.hostname %></span>
+    Editing mappings
+  </h1>
+</div>
+
+<% if (@mappings.empty? or @mappings.total_count < Mapping.default_per_page) && current_user.can_edit?(@site.organisation) %>
+  <div class="add-bottom-margin">
+    <%= render partial: 'add_button' %>
+  </div>
+<% elsif current_user.can_edit?(@site.organisation) %>
+  <div class="pull-right add-bottom-margin">
+    <%= link_to site_mappings_path(@site), class: 'btn' do %>
+      Cancel
+    <% end %>
+    <%= link_to editmultiple_site_mappings_path(@site), class: 'btn btn-success' do %>
+      Save changes
+    <% end %>
+  </div>
+<% end %>
+
+<% if @mappings.any? %>
+  <table class="mappings table table-striped table-hover table-bordered">
+    <thead>
+    <tr>
+      <th class="mapping-type-header" scope="col">Type</th>
+      <th scope="col">
+        Original path from <%= @site.default_host.hostname %>
+        <br>
+        (where it redirects to when applicable)
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @mappings.each do |mapping| %>
+      <tr data-status-code="<%= mapping.http_status %>" class="js-edit-mapping-form">
+        <%= form_for mapping, url: polymorphic_url([@site, mapping]), html: {class: 'remove-bottom-margin'} do |f| %>
+          <td style="height: 70px">
+            <%= f.select :http_status, options_for_supported_statuses, {}, { class: 'remove-bottom-margin js-http-status', style: 'width: 100px; height: 20px; font-size: 13px' } %>
+          </td>
+          <td style="border-left: none">
+            <div class="js-for-redirect">
+              <%= f.label :new_url, style: 'font-weight: normal' do %>
+                <%= link_to mapping.old_url, mapping.old_url %>
+                <b class="muted">redirects to</b>
+              <% end %>
+              <%= f.text_field :new_url, class: 'span10' %>
+            </div>
+            <div class="js-for-archive">
+              <%= link_to mapping.old_url, mapping.old_url %>
+            </div>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+
+  <div class="clearfix">
+  <% if (@mappings.empty? or @mappings.total_count < Mapping.default_per_page) && current_user.can_edit?(@site.organisation) %>
+    <div class="add-bottom-margin">
+      <%= render partial: 'add_button' %>
+    </div>
+  <% elsif current_user.can_edit?(@site.organisation) %>
+    <div class="pull-right add-bottom-margin">
+      <%= link_to site_mappings_path(@site), class: 'btn' do %>
+        Cancel
+      <% end %>
+      <%= link_to site_mappings_path(@site), class: 'btn btn-success' do %>
+        Save changes
+      <% end %>
+    </div>
+  <% end %>
+  </div>
+
+<% else %>
+  <p class="no-content no-content-bordered">
+    No mappings found
+  </p>
+<% end %>
+<script>GOVUK.Mappings.editAll()</script>

@@ -9,10 +9,17 @@
 
   var Mappings = {
 
-    edit: function() {
+    editAll: function() {
+      var forms = $('.js-edit-mapping-form');
 
-      var form = $('.js-edit-mapping-form'),
-          httpStatus = form.find('.js-http-status'),
+      forms.each(function() {
+        GOVUK.Mappings.edit($(this));
+      });
+    },
+
+    edit: function(form) {
+
+      var httpStatus = form.find('.js-http-status'),
           archiveFields = form.find('.js-for-archive'),
           redirectFields = form.find('.js-for-redirect');
 
