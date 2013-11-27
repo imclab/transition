@@ -12,6 +12,7 @@ Transition::Application.routes.draw do
     resources :mappings, except: [:destroy] do
       collection do
         get 'editmultiple'
+        get 'review'
       end
       resources :versions, only: [:index]
     end

@@ -12,18 +12,18 @@
       </dd>
     </dl>
   <% else %>
-    <%= f.label :path, 'Old URL', class: 'add-top-margin' %>
-    <div class="input-prepend add-bottom-margin">
-      <span class="add-on">http://<%= @site.default_host.hostname %></span>
-      <%= f.text_field :path, class: 'span8', placeholder: '/path/to/page' %>
-    </div>
+    <%= f.label :path, class: 'add-top-margin' do %>
+      Old URLs<br>
+      <p class="muted" style="font-weight: normal">One path per line, without https or hostname.</p>
+    <% end %>
+    <%= f.text_area :path, class: 'span8', placeholder: '/path/to/page', style: 'height: 300px' %>
   <% end %>
 
   <%= field_set_tag nil, class: 'js-for-redirect' do %>
     <legend class="if-js-rm">
       Redirect
     </legend>
-    <%= f.label :new_url, 'Redirects to' %>
+    <%= f.label :new_url, 'All redirect to' %>
     <%= f.text_field :new_url, class: 'span8' %>
   <% end %>
 
@@ -76,7 +76,6 @@
     </div>
   <% end %>
 
-  <%= f.submit @mapping.persisted? ? 'Save mapping' : 'Create mapping', class: 'add-top-margin btn btn-success' %>
+  <%= f.submit @mapping.persisted? ? 'Save mapping' : 'Next', class: 'add-top-margin btn btn-success' %>
 <% end %>
-<script>GOVUK.Mappings.edit()</script>
 <script>GOVUK.Mappings.editAll()</script>
