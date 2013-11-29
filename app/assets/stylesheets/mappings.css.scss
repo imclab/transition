@@ -17,6 +17,13 @@ tr.selected-row .mapping-type-archive {
   width: 97%;
 }
 
+thead tr + tr td {
+  //box-shadow: rgba(0,0,0,0.2) 0 4px 4px -2px;
+  box-shadow: #bbb 0 1px;
+  z-index: 1;
+  position: relative;
+}
+
 .mappings label {
   display: block;
   height: 40px;

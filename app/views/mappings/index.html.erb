@@ -15,15 +15,10 @@
 <h2><%= pluralize(number_with_delimiter(@mappings.total_count, :delimiter => ','), 'mapping', 'mappings') %></h2>
 
 <% if (@mappings.empty? or @mappings.total_count < Mapping.default_per_page) && current_user.can_edit?(@site.organisation) %>
-  <div class="add-bottom-margin">
-    <%= render partial: 'add_button' %>
-  </div>
+
 <% elsif current_user.can_edit?(@site.organisation) %>
   <div class="pull-left">
     <%= paginate(@mappings) %>
-  </div>
-  <div class="pull-right add-bottom-margin">
-    <%= render partial: 'add_button' %>
   </div>
 <% else %>
   <div class="add-bottom-margin">
@@ -37,14 +32,24 @@
     <h3>Archive paths</h3>
   </div>
   <div class="modal-body">
-    <ul>
-      <li>
-        <a href="#">/about</a>
-      </li>
-      <li>
-        <a href="#">/about/us</a>
-      </li>
-    </ul>
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Original paths</th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td><a href="#">/about</a></td>
+      </tr>
+      <tr>
+        <td><a href="#">/about/us</a></td>
+      </tr>
+      <tr>
+        <td><a href="#">/about/us/the-team/pages.aspx</a></td>
+      </tr>
+      </tbody>
+    </table>
   </div>
   <div class="modal-footer">
     <a href="#" data-dismiss="modal" class="btn">Cancel</a>
@@ -58,15 +63,24 @@
     <h3>Redirect paths</h3>
   </div>
   <div class="modal-body">
-    <ul>
-      <li>
-        <a href="#">/about</a>
-      </li>
-      <li>
-        <a href="#">/about/us</a>
-      </li>
-    </ul>
-    
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Original paths</th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td><a href="#">/about</a></td>
+      </tr>
+      <tr>
+        <td><a href="#">/about/us</a></td>
+      </tr>
+      <tr>
+        <td><a href="#">/about/us/the-team/pages.aspx</a></td>
+      </tr>
+      </tbody>
+    </table>
     <div>
       <label for="redirect-to">Redirect to</label>
       <input type="text" id="redirect-to">
@@ -82,18 +96,21 @@
 <% if @mappings.any? %>
   <table class="mappings table table-bordered">
     <thead>
-    <tr>
-      <th></th>
-      <th class="mapping-type-header" scope="col">Type</th>
-      <th scope="col">
-        Original path from <%= @site.default_host.hostname %>
-        <br>
-        (where it redirects to when applicable)
-      </th>
-      <% if current_user.can_edit?(@site.organisation) %>
+      <tr style="background-color: #eee">
         <th></th>
-      <% end %>
-    </tr>
+        <th class="mapping-type-header" scope="col">Type</th>
+        <th scope="col" colspan="2">
+            Original path from <%= @site.default_host.hostname %>
+        </th>
+      </tr>
+      <tr style="background-color: #f9f9f9; box-shadow: rgba(0,0,0,0.5) 0 2px; z-index: 1; position: relative;">
+        <td>
+          <label style="display: block; width: 30px; height: 30px;"><input type="checkbox" class="js-check">
+        </td>
+        <td colspan="3">
+          <%= render partial: 'add_button' %>
+        </td>
+      </tr>
     </thead>
     <tbody>
     <% @mappings.each do |mapping| %>
@@ -111,8 +128,8 @@
         </td>
         <% if current_user.can_edit?(@site.organisation) %>
           <td class="text-right">
-            <%= link_to edit_site_mapping_path(@site, mapping), class: 'btn btn-mini' do %>
-              Edit&nbsp;mapping
+            <%= link_to edit_site_mapping_path(@site, mapping), class: 'btn' do %>
+              Edit
             <% end %>
           </td>
         <% end %>
