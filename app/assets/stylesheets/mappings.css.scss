@@ -7,8 +7,33 @@
   }
 }
 
+.mapping-type {
+  width: 100px;
+}
+
+tr:hover .mapping-type .type-title,
+tr:hover .muted-link,
+tr .new-url-field,
+.mapping-type select {
+  display: none;
+}
+
+tr:hover .mapping-type select {
+  display: block;
+  width: 100px;
+  margin-bottom: 0;
+  height: 22px;
+}
+
+tr:hover .new-url-field {
+  display: block;
+  width: 90%;
+  margin-bottom: 0;
+}
+
 .mapping-type-redirect {
   background-color: $goodHTTPStatusColor;
+  height: 60px;
 }
 
 .mapping-type-archive {

@@ -49,14 +49,19 @@
     <tbody>
     <% @mappings.each do |mapping| %>
       <tr data-status-code="<%= mapping.http_status %>">
-        <td class="<%= "mapping-type-#{mapping.type}" %>">
-          <%= mapping.type.titleize %>
+        <td class="mapping-type <%= "mapping-type-#{mapping.type}" %>">
+          <span class="type-title"><%= mapping.type.titleize %></span>
+          <select>
+            <option>Redirect</option>
+            <option>Archive</option>
+          </select>
         </td>
         <td>
-          <strong><%= link_to mapping.path, mapping.old_url, class: 'breakable' %></strong>
+          <%= link_to mapping.path, mapping.old_url %>
           <% if mapping.redirect? %>
-            <br><span class="muted">redirects to</span>
-            <%= link_to mapping.new_url, mapping.new_url, class: 'muted-link breakable' if mapping.new_url.present? %>
+            <i class="muted">redirects to</i><br>
+            <%= link_to mapping.new_url, mapping.new_url, class: 'muted-link' if mapping.new_url.present? %>
+            <input class="new-url-field" type="text" value="<%= mapping.new_url %>">
           <% end %>
         </td>
         <% if current_user.can_edit?(@site.organisation) %>
