@@ -20,25 +20,51 @@
     edit: function(form) {
 
       var httpStatus = form.find('.js-http-status'),
+          httpStatusWrapper = form.find('.js-http-status-wrapper'),
           archiveFields = form.find('.js-for-archive'),
           redirectFields = form.find('.js-for-redirect');
 
-      httpStatus.on('change', toggleFormFieldsets);
-      toggleFormFieldsets();
+      if (httpStatusWrapper.length > 0) {
+
+        httpStatusWrapper.on('click', '.btn', function() {
+          setTimeout(function() {
+            toggleFormFieldsets("" + httpStatusWrapper.find(".btn.active").data('value'));
+          }, 50);
+        });
+
+        toggleFormFieldsets("" + httpStatusWrapper.find(".btn.active").data('value'));
+
+        /*
+        httpStatusWrapper.on('change', 'input', function() {
+          toggleFormFieldsets(httpStatusWrapper.find("input[type='radio']:checked").val());
+        });
+
+        toggleFormFieldsets(httpStatusWrapper.find("input[type='radio']:checked").val());
+        */
+
+      } else {
+
+        httpStatus.on('change', function() {
+          toggleFormFieldsets(httpStatus.val());
+        });
+
+        toggleFormFieldsets(httpStatus.val());
+      }
 
       form.find('[data-module="toggle"]').each(function() {
         GOVUK.Mappings.toggle($(this));
       });
 
-      function toggleFormFieldsets() {
+      function toggleFormFieldsets(selectedHTTPStatus) {
 
-        var selectedHTTPStatus = httpStatus.val();
+        console.log('here', selectedHTTPStatus);
 
         switch (selectedHTTPStatus) {
 
           case '301':
             redirectFields.show();
             archiveFields.hide();
+            redirectFields.find('input').first().focus();
             break;
 
           case '410':

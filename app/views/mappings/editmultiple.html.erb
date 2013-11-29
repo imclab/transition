@@ -25,14 +25,13 @@
 <% end %>
 
 <% if @mappings.any? %>
-  <table class="mappings table table-striped table-hover table-bordered">
+  <table class="mappings table table-hover table-bordered">
     <thead>
     <tr>
-      <th class="mapping-type-header" scope="col">Type</th>
+      <th>Original path</th>
+      <th class="mapping-type-header" scope="col">New URL</th>
       <th scope="col">
-        Original path from <%= @site.default_host.hostname %>
-        <br>
-        (where it redirects to when applicable)
+        Toggle
       </th>
     </tr>
     </thead>
@@ -40,19 +39,23 @@
     <% @mappings.each do |mapping| %>
       <tr data-status-code="<%= mapping.http_status %>" class="js-edit-mapping-form">
         <%= form_for mapping, url: polymorphic_url([@site, mapping]), html: {class: 'remove-bottom-margin'} do |f| %>
-          <td style="height: 70px">
-            <%= f.select :http_status, options_for_supported_statuses, {}, { class: 'remove-bottom-margin js-http-status', style: 'width: 100px; height: 20px; font-size: 13px' } %>
+          <td style="min-width: 400px; vertical-align: middle;">
+            <span style="word-break: break-all; display: inline-block"><%= link_to mapping.path, mapping.old_url %></span>
           </td>
-          <td style="border-left: none">
+          <td style="min-width: 600px; padding:8px; vertical-align: middle;">
             <div class="js-for-redirect">
-              <%= f.label :new_url, style: 'font-weight: normal' do %>
-                <%= link_to mapping.old_url, mapping.old_url %>
-                <b class="muted">redirects to</b>
-              <% end %>
-              <%= f.text_field :new_url, class: 'span10' %>
+              <%= f.text_field :new_url, class: 'remove-bottom-margin', style: 'min-width: 486px' %>
             </div>
             <div class="js-for-archive">
-              <%= link_to mapping.old_url, mapping.old_url %>
+              <span class="muted">Archived</span>
+            </div>
+          </td>
+          <td style="width: 100px;" class="js-http-status-wrapper">
+            <!--<label style="font-weight: normal"><input type="radio" value="301" style="margin-top: -3px" name="type" <% if mapping.redirect? %>checked="checked"<% end %>>&nbsp;Redirect</label>
+            <label style="font-weight: normal"><input type="radio" value="410" style="margin-top: -3px" name="type" <% unless mapping.redirect? %>checked="checked"<% end %>>&nbsp;Archive</label>-->
+            <div data-toggle="buttons-radio">
+              <button type="button" data-value="410" class="js-for-redirect btn <% unless mapping.redirect? %>active<% end %>">Archive</button>
+              <button type="button" data-value="301" class="js-for-archive btn <% if mapping.redirect? %>active<% end %>"><i class="icon-refresh"></i> Redirect</button>
             </div>
           </td>
         <% end %>
