@@ -7,33 +7,26 @@
   }
 }
 
-.mapping-type {
-  width: 100px;
+tr.selected-row,
+tr.selected-row .mapping-type-redirect,
+tr.selected-row .mapping-type-archive {
+  background: rgb(255, 252, 213);
 }
 
-tr:hover .mapping-type .type-title,
-tr:hover .muted-link,
-tr .new-url-field,
-.mapping-type select {
-  display: none;
+#redirect-to {
+  width: 97%;
 }
 
-tr:hover .mapping-type select {
+.mappings label {
   display: block;
-  width: 100px;
-  margin-bottom: 0;
-  height: 22px;
-}
-
-tr:hover .new-url-field {
-  display: block;
-  width: 90%;
-  margin-bottom: 0;
+  height: 40px;
+  margin: -8px;
+  padding: 8px;
+  text-align: center;
 }
 
 .mapping-type-redirect {
   background-color: $goodHTTPStatusColor;
-  height: 60px;
 }
 
 .mapping-type-archive {

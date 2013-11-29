@@ -9,6 +9,19 @@
 
   var Mappings = {
 
+    toggles: function() {
+
+      $('tr').on('change', '.js-check', function() {
+        console.log('click');
+        $(this).parents('tr').toggleClass('selected-row');
+      });
+
+      $('.js-modal-archive').on('click', function() {
+
+      });
+
+    },
+
     editAll: function() {
       var forms = $('.js-edit-mapping-form');
 
