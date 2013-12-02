@@ -16,8 +16,10 @@
         $(this).parents('tr').toggleClass('selected-row');
       });
 
-      $('.js-modal-archive').on('click', function() {
-
+      $('.js-check-all').on('click', function() {
+        $('tbody .js-check').attr('checked', function(idx, oldAttr) {
+            return !oldAttr;
+        }).trigger('change');
       });
 
     },
