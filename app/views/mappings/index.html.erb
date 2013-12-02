@@ -97,11 +97,12 @@
   <table class="mappings table table-bordered">
     <thead>
       <tr style="background-color: #eee">
-        <th></th>
-        <th class="mapping-type-header" scope="col">Type</th>
-        <th scope="col" colspan="2">
+        <th style="width: 30px"></th>
+        <th style="width: 70px" class="mapping-type-header" scope="col">Type</th>
+        <th scope="col">
             Original path from <%= @site.default_host.hostname %>
         </th>
+        <th></th>
       </tr>
       <tr style="background-color: #f9f9f9; box-shadow: rgba(0,0,0,0.5) 0 2px; z-index: 1; position: relative;">
         <td>
@@ -120,14 +121,14 @@
           <span class="type-title"><%= mapping.type.titleize %></span>
         </td>
         <td>
-          <%= link_to mapping.path, mapping.old_url %>
+          <%= link_to mapping.path, mapping.old_url, style: 'font-weight: bold' %>
           <% if mapping.redirect? %>
-            <i class="muted">redirects to</i><br>
-            <%= link_to mapping.new_url, mapping.new_url, class: 'muted-link' if mapping.new_url.present? %>
+            <br>
+            <i class="muted">redirects to</i> <%= link_to mapping.new_url, mapping.new_url, class: 'muted-link' if mapping.new_url.present? %>
           <% end %>
         </td>
         <% if current_user.can_edit?(@site.organisation) %>
-          <td class="text-right">
+          <td class="text-right" style="width: 30px">
             <%= link_to edit_site_mapping_path(@site, mapping), class: 'btn' do %>
               Edit
             <% end %>
