@@ -12,18 +12,18 @@
       </dd>
     </dl>
   <% else %>
-    <%= f.label :path, class: 'add-top-margin' do %>
-      Old URLs<br>
-      <p class="muted" style="font-weight: normal">One path per line, without https or hostname.</p>
-    <% end %>
-    <%= f.text_area :path, class: 'span8', placeholder: '/path/to/page', style: 'height: 300px' %>
+      <%= f.label :path, class: 'add-top-margin' do %>
+        Old URLs<br>
+        <p class="muted" style="font-weight: normal">Please add one path per line and should start with a ‘/’.<br/> All paths must be from http://<%= @site.default_host.hostname %></p>
+      <% end %>
+      <%= f.text_area :path, class: 'span8', placeholder: '/path/to/page', style: 'height: 200px' %>
   <% end %>
 
   <%= field_set_tag nil, class: 'js-for-redirect' do %>
     <legend class="if-js-rm">
       Redirect
     </legend>
-    <%= f.label :new_url, 'All redirect to' %>
+    <%= f.label :new_url, 'Redirect to' %>
     <%= f.text_field :new_url, class: 'span8' %>
   <% end %>
 
@@ -61,12 +61,13 @@
 
     <div data-module="toggle">
       <p class="if-no-js-hide js-toggle-target <% if @mapping.suggested_url %>if-js-hide<% end %>">
-        Did this page contain content that shouldn’t be met by government?<br/>
+        Do these pages contain content that shouldn’t be met by government?<br/>
         <a href="#suggest-url" class="js-toggle muted-link">Suggest a private sector URL</a>
       </p>
       <div class="<% unless @mapping.suggested_url %>if-js-hide<% end %> js-toggle-target">
         <%= f.label :suggested_url do %>
           Suggest URL to user
+          <p class="muted" style="font-weight: normal">Suggested URLs are shown beneath the link to National Archives, they are rarely needed.</p>
         <% end %>
         <div class="input-append">
           <%= f.text_field :suggested_url, class: 'span8' %>
@@ -76,6 +77,6 @@
     </div>
   <% end %>
 
-  <%= f.submit @mapping.persisted? ? 'Save mapping' : 'Next', class: 'add-top-margin btn btn-success' %>
+  <%= f.submit @mapping.persisted? ? 'Save mapping' : 'Submit mappings', class: 'add-top-margin btn btn-success' %>
 <% end %>
 <script>GOVUK.Mappings.editAll()</script>
