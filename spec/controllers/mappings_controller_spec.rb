@@ -14,12 +14,21 @@ describe MappingsController do
     before do
       login_as_stub_user
       [mapping_c, mapping_b, mapping_a].each {|mapping| mapping.should be_persisted}
-
-      get :index, site_id: site.abbr
     end
 
     it 'orders mappings by path' do
+      get :index, site_id: site.abbr
       assigns(:mappings).should == [mapping_a, mapping_b, mapping_c]
+    end
+
+    it 'extracts paths from full URLs supplied for filtering' do
+      get :index, site_id: site.abbr, contains: 'https://www.example.com/foobar'
+      controller.params[:contains].should eql('/foobar')
+    end
+
+    it 'gracefully degrades if the filtering value looks like a URL but is unparseable' do
+      get :index, site_id: site.abbr, contains: 'https://____'
+      controller.params[:contains].should eql('https://____')
     end
   end
 
