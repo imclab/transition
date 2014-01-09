@@ -20,8 +20,12 @@ class MappingsController < ApplicationController
 
   def index
     store_site_return_url
-
-    @mappings = @site.mappings.filtered_by_path(params[:contains]).order(:path).page(params[:page])
+    @mappings = @site.mappings.order(:path).page(params[:page])
+    @mappings = if params[:filter_field] == 'new_url'
+       @mappings.redirects.filtered_by_new_url(params[:contains])
+    else
+       @mappings.filtered_by_path(params[:contains])
+    end
   end
 
   def edit
