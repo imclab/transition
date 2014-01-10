@@ -66,4 +66,14 @@ module MappingsHelper
   def http_status_name(http_status)
     Mapping::TYPES[http_status].titleize
   end
+
+  def new_mappings_count
+    c = @bulk_add.canonical_paths.size - @bulk_add.existing_mappings.size
+    pluralize(c, "new mapping")
+  end
+
+  def existing_mappings_count
+    c = @bulk_add.existing_mappings.size
+    pluralize(c, "existing mapping")
+  end
 end
